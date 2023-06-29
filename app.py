@@ -8,10 +8,13 @@ import requests
 import json
 import os
 import datetime
+from flask_cors import CORS
 # initialize first flask
 app = Flask(__name__)
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/Project'  # Replace with your MongoDB connection URI
 mongo = PyMongo(app)
+CORS(app)
+
 
 @app.route("/")
 def home():
@@ -764,4 +767,4 @@ def area():
 # run code in debug mode
 if __name__ == "__main__":
         app.secret_key = "my_super_secret_key"
-        app.run(debug=True)
+        app.run(host='0.0.0.0',port=5000,use_reloader=True)

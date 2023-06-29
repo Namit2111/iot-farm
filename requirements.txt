@@ -1,6 +1,7 @@
-Flask
-Flask-PyMongo
-pymongo
-bson
-requests
+Flask==2.3.2
+Flask-Cors==3.0.10
+Flask-PyMongo==2.3.0
+pymongo==4.3.3
+requests==2.31.0
 datetime
+bson

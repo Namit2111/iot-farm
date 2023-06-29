@@ -14,7 +14,8 @@ app = Flask(__name__)
 app.config['MONGO_URI'] = "mongodb+srv://coe211153csecoe:AZmtosHqknPrbcI2@cluster0.mhxrfuv.mongodb.net/Project?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 CORS(app)
-
+secret_key = os.urandom(24)
+app.secret_key = secret_key
 
 @app.route("/")
 def home():
@@ -765,8 +766,5 @@ def area():
 
 
 # run code in debug mode
-if __name__ == "__main__":
-        
-        secret_key = os.urandom(24)
-        app.secret_key = secret_key
-        app.run(host='0.0.0.0',port=5000,use_reloader=True)
+
+app.run(host='0.0.0.0',port=5000,use_reloader=True,debug=True)

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+         
+        body {
+      background-image: url('static/landpageback.jpeg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if username %}
+            <h1>Welcome, {{ username }}!</h1>
+            {% if privlidge == 'admin' %}
+                <p>You have admin privileges.</p>
+                <a href="/logout">Logout</a>
+                <br>
+                <a href="/admin">Admin Panel</a>
+            {% else %}
+                
+                <a href="/logout">Logout</a>
+                <br>
+                <a href="/panel">Panel</a>
+            {% endif %}
+        {% else %}
+            <h1>Welcome to the Smart farming homepage</h1>
+            <a href="/signup">Sign up</a>
+            <br>
+            <a href="/login">Login</a>
+          
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add User</title>
+</head>
+<body>
+    <h1>Add User</h1>
+
+    <form action="/add_user" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br><br>
+
+        <label for="contact">Contact Number:</label>
+        <input type="text" id="contact" name="contact" required>
+        <br><br>
+
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+            <option value="admin">admin</option>
+            <option value="user">User</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Add User">
+    </form>
+</body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel</title>
+
+    
+
+
+
+
+
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      .chart-container {
+        width: 400px;
+        height: 300px;
+        margin-bottom: 20px;
+      }
+
+      .wrap {
+        display: flex;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+
+      h1 {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      h3 {
+        margin-top: 30px;
+      }
+
+      #cropSelect {
+        margin-top: 10px;
+        margin-bottom: 30px;
+        display: block;
+        width: 200px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      #cropData {
+        margin-bottom: 30px;
+        display:flex;
+        gap:30px;
+      }
+
+      ul {
+        list-style-type: none;
+        padding-top: 15px;
+        margin-left:-10px;
+        margin-right:10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+/*
+      .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #45a049;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+      }
+
+      label {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"],
+      input[type="date"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }*/
+
+
+
+
+
+
+
+
+    </style>
+  </head>
+  <body>
+    <h1>Welcome, {{ username }}!</h1>
+
+
+    <h2>Farm Name : Farm 1</h2>
+
+
+    {% if area %} 
+    <h3>Area of farm: {{area}} m*m</h3>
+    {% else %}
+    <h3> enter legth and breath of your field  in meters</h3>
+    <form action="/area" method="post">
+      <label for="length">Length:</label>
+      <input type="number" id="length" name="length" required><br><br>
+  
+      <label for="breadth">Breadth:</label>
+      <input type="number" id="breadth" name="breadth" required><br><br>
+  
+      <input type="submit" value="Submit">
+    </form>
+    {% endif %}
+    <!-- <h2>Channel: {{ channel_name }}</h2> -->
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+<!-- Add chart display -->
+<div class="wrap">
+  <div class="chart-container">
+    <canvas id="soilMoistureChart"></canvas>
+  </div>
+  <div class="chart-container">
+    <canvas id="humidityChart"></canvas>
+  </div>
+  <div class="chart-container">
+    <canvas id="temperatureChart"></canvas>
+  </div>
+</div>
+<!-- --------------------------------------------------------------------------------------------------------------------------------- -->
+
+<div id="select-crop-wrap" style="display: none;">
+
+  <h3>Select a Crop</h3>
+<!-- Crop selection dropdown -->
+<select id="cropSelect" onchange="getCropData()" >
+  <option value="" disabled selected>Select a Crop</option>
+  {% for crop in crops %}
+  <option value="{{ crop }}" >{{ crop }}</option>
+  {% endfor %}
+  <!-- Add more crop options as needed -->
+</select>
+
+<!-- Confirm button -->
+<button id="confirmButton" >Confirm</button>
+
+
+<!------------------------- Display crop data -->
+
+
+
+<table>
+  <thead>
+    <tr>
+ 
+      <th>Soil Moisture</th>
+      <th>Humidity</th>
+      <th>Temperature</th>
+  
+ 
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="soilMoistureList"><li>{{ crop_data['Soil moisture'] }}</li></td>
+      <td id="humidityList">{{ crop_data['Climate'] }}</td>
+      <td id="temperatureList">{{ crop_data['Suitable temperature'] }}</td>
+     
+    </tr>
+  </tbody>
+</table>
+
+   
+</div>
+</div>
+<h2>Crop Information</h2>
+<button class="add-row-btn" onclick="document.getElementById('select-crop-wrap').style.display='block'">Add Row</button>
+<table id="crop-table">
+  <thead>
+    <tr>
+      <th>Crop Name</th>
+      <th>Start Date</th>
+    
+    </tr>
+  </thead>
+  <tbody>
+    {% if crop_data %}
+      {% for crop in crop_data %}
+      {% if crop.crop %}
+        <tr>
+          <td>{{ crop.crop }}</td>
+          <td>{{ crop.date }}</td>
+        
+        </tr>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </tbody>
+  
+</table>
+
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
+    
+<div id="chemical-name-wrap" style="display:none;"> 
+
+<form action="/add-chemical" method="POST" >
+  <label for="chemical-name">Chemical Name:</label>
+  <input type="text" id="chemical-name" name="chemical-name" required>
+  
+  <label for="date">Start Date:</label>
+  <input type="date" id="date" name="date" required>
+  
+  <button type="submit">Add Chemical</button>
+</form>
+</div>
+
+<h2>Fertilizer/Pesticide Information</h2>
+    <button class="add-row-btn" onclick="document.getElementById('chemical-name-wrap').style.display='block'">Add Row</button>
+    <table id="chemical-table">
+        <thead>
+            <tr>
+                <th>Chemical</th>
+                <th>Date</th>
+         
+            </tr>
+        </thead>
+        <tbody>
+          {% if crop_data %}
+          {% for crop_data in crop_data %}
+          {% if crop_data.chemical %}
+          <tr>
+            <td>{{crop_data.chemical}}</td>
+            <td>{{crop_data.chemical_date}}</td>
+     
+        </tr>
+        {% endif %}
+        {% endfor %} 
+          {% endif %}
+        </tbody>
+    </table>
+<!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
+    
+<div id="yield-wrap" style="display:none;">
+
+<form action="/add-yield" method="POST" >
+  <label for="yield-crop">Yield Crop:</label>
+  <input type="text" id="yield-crop" name="yield-crop" required>
+  
+  <label for="yield-date">Date:</label>
+  <input type="date" id="yield-date" name="yield-date" required>
+  
+  <button type="submit">Add Yield Crop</button>
+</form>
+</div>
+
+
+<h2>Crop Yield Data</h2>
+    <button class="add-row-btn" onclick="document.getElementById('yield-wrap').style.display='block'">Add Row</button>
+    <table id="yield-table">
+        <thead>
+            <tr>
+                <th>Crop Yield</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% if crop_data %}
+          {% for crop_data in crop_data %}
+          {% if crop_data.yield_crop %}
+          <tr>
+            <td>{{crop_data.yield_crop}}</td>
+            <td>{{crop_data.yield_date}}</td>
+        </tr> {% endif %}
+        {% endfor %}
+         
+          {% endif %}
+            
+            
+        </tbody>
+    </table>
+
+
+
+
+    
+
+    <!-- {% if chemical %}
+                            
+    <td>{{chemical.chemial}}</td>     
+    <td>{{chemical.date}}</td>    
+    {% endif   %}      -->
+
+
+
+
+
+
+    
+
+    
+    
+    <!--<button class="btn">Button 1</button>
+    <button class="btn">Button 2</button>--> 
+
+    <script>
+      // Get data from the feeds
+      var entryIds = [];
+      var soilMoistureData = [];
+      var humidityData = [];
+      var temperatureData = [];
+      var chemical_name =[];
+      var date = [];
+
+      {% for feed in feeds %}
+           entryIds.push('{{ feed.entry_id }}');
+           soilMoistureData.push('{{ feed.soil_moisture }}');
+           humidityData.push('{{ feed.humidity }}');
+           temperatureData.push('{{ feed.temperature }}');
+         
+      {% endfor %}
+
+      // Create soil moisture chart
+      var soilMoistureCtx = document.getElementById('soilMoistureChart').getContext('2d');
+      var soilMoistureChart = new Chart(soilMoistureCtx, {
+          type: 'line',
+          data: {
+              labels: entryIds,
+              datasets: [
+                  {
+                      label: 'Soil Moisture',
+                      data: soilMoistureData,
+                      borderColor: 'blue',
+                      fill: false
+                  }
+              ]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
+      // Create humidity chart
+      var humidityCtx = document.getElementById('humidityChart').getContext('2d');
+      var humidityChart = new Chart(humidityCtx, {
+          type: 'line',
+          data: {
+              labels: entryIds,
+              datasets: [
+                  {
+                      label: 'Humidity',
+                      data: humidityData,
+                      borderColor: 'green',
+                      fill: false
+                  }
+              ]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
+      // Create temperature chart
+      var temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
+      var temperatureChart = new Chart(temperatureCtx, {
+          type: 'line',
+          data: {
+              labels: entryIds,
+              datasets: [
+                  {
+                      label: 'Temperature',
+                      data: temperatureData,
+                      borderColor: 'red',
+                      fill: false
+                  }
+              ]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    </script>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function getCropData() {
+          var selectedCrop = $('#cropSelect').val();
+    
+          // Make a GET request to retrieve crop data
+          $.get('/crop_data/' + selectedCrop, function(data) {
+              // Update the HTML elements with the retrieved data
+              $('#soilMoistureList').html('<li>' + data['Soil moisture'] + '</li>');
+              $('#humidityList').html('<li>' + data['Climate'] + '</li>');
+              $('#temperatureList').html('<li>' + data['Suitable temperature'] + '</li>');
+                
+              // Enable the confirm button
+              $('#confirmButton').prop('disabled', false);
+                
+              // Update the crop selection in the database on confirm button click
+              $('#confirmButton').click(function() {
+                  $.post('/update_crop', { crop_name: selectedCrop }, function(response) {
+                      if (response.success) {
+                          // Crop selection successfully updated in the database
+                          $('#selectedCrop').html('Selected Crop: ' + selectedCrop);
+                            
+                          // Disable the crop selection dropdown and confirm button
+                          $('#cropSelect').prop('disabled', true);
+                          $('#confirmButton').prop('disabled', true);
+                      } else {
+                          // Error occurred while updating the database
+                          console.log(response.error);
+                      }
+                  });
+              });
+          });
+      }
+
+
+
+      function add_crop(){
+    console.log("Here")
+    document.getElementById('select-crop-wrap').style.display="block";
+  }
+  </script>
+    
+
+<script>
+  
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+  </body>
+</html>

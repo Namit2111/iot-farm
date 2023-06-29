@@ -1,0 +1,5 @@
+flask
+bson
+requests
+flask-pymongo
+datetime

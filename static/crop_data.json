@@ -1,0 +1,146 @@
+{
+    "Watermelon": {
+        "Sowing time": "March to April",
+        "Harvesting time": "June to July",
+        "Suitable temperature": "25-35\u00c2\u00b0C",
+        "Climate": "Warm and dry, moderate humidity",
+        "Soil": "Well-drained sandy loam soil with good organic matter content",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires regular watering, soil should be evenly moist."
+    },
+    "Muskmelon": {
+        "Sowing time": "March to April",
+        "Harvesting time": "June to July",
+        "Suitable temperature": "25-35\u00c2\u00b0C",
+        "Climate": "Warm and dry, moderate humidity",
+        "Soil": "Well-drained loamy soil with good organic matter content",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires regular watering, soil should be evenly moist."
+    },
+    "Cucumber": {
+        "Sowing time": "March to April",
+        "Harvesting time": "June to July",
+        "Suitable temperature": "25-35\u00c2\u00b0C",
+        "Climate": "Warm and humid",
+        "Soil": "Well-drained loamy soil with good organic matter content",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires regular watering, soil should be evenly moist."
+    },
+    "Bitter Gourd": {
+        "Sowing time": "March to April",
+        "Harvesting time": "June to July",
+        "Suitable temperature": "25-35\u00c2\u00b0C",
+        "Climate": "Warm and dry, moderate humidity",
+        "Soil": "Well-drained sandy loam soil with good organic matter content",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires regular watering, soil should be evenly moist."
+    },
+    "Bottle Gourd": {
+        "Sowing time": "March to April",
+        "Harvesting time": "June to July",
+        "Suitable temperature": "25-35\u00c2\u00b0C",
+        "Climate": "Warm and dry, moderate humidity",
+        "Soil": "Well-drained loamy soil with good organic matter content",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires regular watering, soil should be evenly moist."
+    },
+    "Rice": {
+        "Sowing time": "June to July",
+        "Harvesting time": "October to November",
+        "Suitable temperature": "25-35\u00c2\u00b0C",
+        "Climate": "High humidity, heavy rainfall (annual rainfall of 1500-2500 mm)",
+        "Soil": "Clayey loam soil with good water-holding capacity",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires continuous flooding or sufficient moisture."
+    },
+    "Maize": {
+        "Sowing time": "June to July",
+        "Harvesting time": "October to November",
+        "Suitable temperature": "20-30\u00c2\u00b0C",
+        "Climate": "Warm and humid, moderate rainfall",
+        "Soil": "Well-drained loamy soil with good organic matter content",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires well-drained soil with good moisture retention."
+    },
+    "Millets (Jowar, Bajra, Ragi)": {
+        "Sowing time": "June to July",
+        "Harvesting time": "October to November",
+        "Suitable temperature": "25-35\u00c2\u00b0C (Jowar and Bajra), 20-30\u00c2\u00b0C (Ragi)",
+        "Climate": "Can tolerate dry conditions, moderate rainfall",
+        "Soil": "Well-drained sandy loam soil with good organic matter content",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires well-drained soil with moderate moisture."
+    },
+    "Soybean": {
+        "Sowing time": "June to July",
+        "Harvesting time": "October to November",
+        "Suitable temperature": "20-30\u00c2\u00b0C",
+        "Climate": "Moderate rainfall",
+        "Soil": "Well-drained loamy soil with good organic matter content",
+        "Fertilizer": "Nitrogen-fixing bacteria can provide sufficient nitrogen. Additional phosphorus (P) and potassium (K).",
+        "Soil moisture": "Requires well-drained soil with moderate moisture."
+    },
+    "Groundnut (Peanut)": {
+        "Sowing time": "June to July",
+        "Harvesting time": "October to November",
+        "Suitable temperature": "25-35\u00c2\u00b0C",
+        "Climate": "Warm and dry, moderate rainfall",
+        "Soil": "Well-drained sandy loam soil with good organic matter content",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires well-drained soil with moderate moisture."
+    },
+    "Wheat": {
+        "Sowing time": "October to December",
+        "Harvesting time": "April to May",
+        "Suitable temperature": "15-25\u00c2\u00b0C",
+        "Climate": "Cool and dry",
+        "Soil": "Well-drained loamy soil",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires moderate soil moisture."
+    },
+    "Barley": {
+        "Sowing time": "October to November",
+        "Harvesting time": "March to April",
+        "Suitable temperature": "10-20\u00c2\u00b0C",
+        "Climate": "Cool and dry",
+        "Soil": "Well-drained loamy soil",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires moderate soil moisture."
+    },
+    "Mustard": {
+        "Sowing time": "October to November",
+        "Harvesting time": "February to March",
+        "Suitable temperature": "10-25\u00c2\u00b0C",
+        "Climate": "Cool and dry",
+        "Soil": "Well-drained loamy soil",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires moderate soil moisture."
+    },
+    "Chickpea (Gram)": {
+        "Sowing time": "November to December",
+        "Harvesting time": "February to March",
+        "Suitable temperature": "15-25\u00c2\u00b0C",
+        "Climate": "Cool and dry",
+        "Soil": "Well-drained loamy soil",
+        "Fertilizer": "Nitrogen-fixing bacteria can provide sufficient nitrogen. Additional phosphorus (P) and potassium (K)",
+        "Soil moisture": "Requires moderate soil moisture."
+    },
+    "Peas": {
+        "Sowing time": "November to December",
+        "Harvesting time": "February to March",
+        "Suitable temperature": "10-20\u00c2\u00b0C",
+        "Climate": "Cool and dry",
+        "Soil": "Well-drained loamy soil",
+        "Fertilizer": "Nitrogen (N), phosphorus (P), and potassium (K)",
+        "Soil moisture": "Requires moderate soil moisture."
+    },
+    "Lentils": {
+        "Sowing time": "October to November",
+        "Harvesting time": "February to March",
+        "Suitable temperature": "10-25\u00c2\u00b0C",
+        "Climate": "Cool and dry",
+        "Soil": "Well-drained loamy soil",
+        "Fertilizer": "Nitrogen-fixing bacteria can provide sufficient nitrogen. Additional phosphorus (P) and potassium (K)",
+        "Soil moisture": "Requires moderate soil moisture."
+    }
+}

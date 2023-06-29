@@ -11,7 +11,9 @@ import datetime
 from flask_cors import CORS
 # initialize first flask
 app = Flask(__name__)
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/Project'  # Replace with your MongoDB connection URI
+# app.config['MONGO_URI'] = 'mongodb://localhost:27017/Project'
+#   # Replace with your MongoDB connection URI
+app.config['MONGO_URI'] = "mongodb+srv://coe211153csecoe:AZmtosHqknPrbcI2@cluster0.mhxrfuv.mongodb.net/Project?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 CORS(app)
 

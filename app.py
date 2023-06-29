@@ -1,5 +1,3 @@
-# code
-# Import all important libraries
 from flask import *
 import re
 from flask_pymongo import PyMongo

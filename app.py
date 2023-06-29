@@ -766,5 +766,7 @@ def area():
 
 # run code in debug mode
 if __name__ == "__main__":
-        app.secret_key = "AZmtosHqknPrbcI2"
+        
+        secret_key = os.urandom(24)
+        app.secret_key = secret_key
         app.run(host='0.0.0.0',port=5000,use_reloader=True)

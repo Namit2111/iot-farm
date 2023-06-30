@@ -147,72 +147,73 @@ def admin():
 @app.route("/admin/user_details/<username>")
 def user_details(username):
     # Check if the user has admin privileges
-    if 'user_id' in session:
-        user = mongo.db.users.find_one({'_id': ObjectId(session['user_id'])})
-        if user and user.get('privlidge') == 'admin':
-          
-            # Retrieve the user details from the database based on the username
-            user_details = mongo.db.users.find_one({'username': username})
-            if user_details:
+    # if 'user_id' in session:
+    user = mongo.db.users.find_one({'_id': ObjectId(session['user_id'])})
+    if user and user.get('privlidge') == 'admin':
+        
+        # Retrieve the user details from the database based on the username
+        user_details = mongo.db.users.find_one({'username': username})
+        if user_details:
+            
+            # Check if the user has an API key
+            if 'api_key' in user_details:
                 
-                # Check if the user has an API key
-                if 'api_key' in user_details:
+                api_key = user_details['api_key']
+                # Make a request to the API using the API key
+                try:
+                    response = requests.get(api_key)
                     
-                    api_key = user_details['api_key']
-                    # Make a request to the API using the API key
-                    try:
-                        response = requests.get(api_key)
-                       
-                        response.raise_for_status()
-                        data = response.json()
-                        # Extract the required data from the API response
-                        channel_name = data["channel"]["name"]
-                        feeds = data["feeds"]
-                        # Rename the field names
-                        renamed_feeds = []
-                        for feed in feeds:
-                            renamed_feed = {
-                                "created_at": feed["created_at"],
-                                "entry_id": feed["entry_id"],
-                                "soil_moisture": feed["field1"],
-                                "humidity": feed["field2"],
-                                "temperature": feed["field3"]
+                    response.raise_for_status()
+                    data = response.json()
+                    # Extract the required data from the API response
+                    channel_name = data["channel"]["name"]
+                    feeds = data["feeds"]
+                    # Rename the field names
+                    renamed_feeds = []
+                    for feed in feeds:
+                        renamed_feed = {
+                            "created_at": feed["created_at"],
+                            "entry_id": feed["entry_id"],
+                            "soil_moisture": feed["field1"],
+                            "humidity": feed["field2"],
+                            "temperature": feed["field3"]
+                        
                             
-                                
-                            }
-                            renamed_feeds.append(renamed_feed)
-                        cc=[]
-                        crop=[]
-                        if "chemical_name" in user_details:
-                            cc =[{"chemial":user_details['chemical_name'],
-                            "date":user_details['date']}] 
-                        duser = [{"email":user_details['email'],"phone":user_details["phone"]}]
-                        if "crop" in user_details:
-                            crop = {"crop":user_details['crop']}
+                        }
+                        renamed_feeds.append(renamed_feed)
+                    cc=[]
+                    crop=[]
+                    if "chemical_name" in user_details:
+                        cc =[{"chemial":user_details['chemical_name'],
+                        "date":user_details['date']}] 
+                    duser = [{"email":user_details['email'],"phone":user_details["phone"]}]
+                    if "crop" in user_details:
+                        crop = {"crop":user_details['crop']}
 
-                        crop_data = []
-                    # Retrieve the crop data from the farm collection based on the user and selected crop
-                        crop_entries = mongo.db.farm.find({'user_id': str(user_details['_id'])})
-                        
-                
-                        crop_data = list(crop_entries)
-                        area=[]
-                        if "area" in user_details:
-                            area = user_details['area']
-                       
-                        # Render the user_details template with the API data and user details
-                        return render_template('user_details.html',area=area, user_details=user_details, channel_name=channel_name, feeds=renamed_feeds,chemical=cc,crop = crop,duser=duser,crop_data=crop_data)
-                    except requests.exceptions.RequestException:
-                        
-                        # Handle the request exception
-                        error_message = "Failed to retrieve data from the API."
-                        return render_template('user_details.html', user_details=user_details, error_message=error_message)
+                    crop_data = []
+                # Retrieve the crop data from the farm collection based on the user and selected crop
+                    crop_entries = mongo.db.farm.find({'user_id': str(user_details['_id'])})
+                    
+            
+                    crop_data = list(crop_entries)
+                    area=[]
+                    if "area" in user_details:
+                        area = user_details['area']
+                    
+                    # Render the user_details template with the API data and user details
+                    return render_template('user_details.html',area=area, user_details=user_details, channel_name=channel_name, feeds=renamed_feeds,chemical=cc,crop = crop,duser=duser,crop_data=crop_data)
+                except requests.exceptions.RequestException:
+                    
+                    # Handle the request exception
+                    error_message = "Failed to retrieve data from the API."
+                    return render_template('user_details.html', user_details=user_details, error_message=error_message)
 
-                # Render the user_details template with the user details
-                return render_template('user_details.html', user_details=user_details)
-            else:
-                return "User not found"
-    # Redirect to the home page or any other desired page
+            # Render the user_details template with the user details
+            return render_template('user_details.html', user_details=user_details)
+        else:
+            return "User not found"
+    # Rediruect to the home page or any other desired page
+    
     return redirect(url_for('home'))
 
 @app.route("/delete_user/<username>", methods=["POST"])

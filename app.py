@@ -11,6 +11,8 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='static',template_folder="templates")
 # app.config['MONGO_URI'] = 'mongodb://localhost:27017/Project'
 #   # Replace with your MongoDB connection URI
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=30)
+
 app.config['MONGO_URI'] = "mongodb+srv://coe211153csecoe:AZmtosHqknPrbcI2@cluster0.mhxrfuv.mongodb.net/Project?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 CORS(app)
@@ -92,7 +94,7 @@ def login():
         if user:
             
             session['user_id'] = str(user['_id'])
-            session.permanent = True
+            # session.permanent = True
             username = user["username"]
             if user["privlidge"] == "admin":
                 return redirect(url_for('admin'))

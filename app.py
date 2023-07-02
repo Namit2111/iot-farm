@@ -90,7 +90,9 @@ def login():
         user = mongo.db.users.find_one({'username': username, 'password': password})
         
         if user:
+            
             session['user_id'] = str(user['_id'])
+            session.permanent = True
             username = user["username"]
             if user["privlidge"] == "admin":
                 return redirect(url_for('admin'))

@@ -8,7 +8,10 @@ import os
 import datetime
 from flask_cors import CORS
 import base64
-
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import random
 
 # initialize first flask
 app = Flask(__name__, static_folder='static',template_folder="templates")
@@ -22,6 +25,43 @@ mongo = PyMongo(app)
 CORS(app)
 secret_key = os.urandom(24)
 app.secret_key = secret_key
+
+
+
+def generate_otp():
+   
+    otp = random.randint(100000, 999999)
+    return str(otp)
+
+
+
+def send_email(sender_email, sender_password, recipient_email, subject, message):
+    # Create a MIME message
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = recipient_email
+    msg['Subject'] = subject
+
+    # Attach the message to the MIME message
+    msg.attach(MIMEText(message, 'plain'))
+
+    # Setup the SMTP server
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587
+
+    try:
+        # Create a secure connection to the SMTP server
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, recipient_email, msg.as_string())
+        
+    except Exception as e:
+        print(f"An error occurred while sending the email: {str(e)}")
+
+
+
+
 
 @app.route("/")
 def home():
@@ -121,10 +161,70 @@ def logout():
     # Redirect to the desired page after logout (e.g., login or home)
     return redirect(url_for('home'))
 
+@app.route('/otp', methods=['GET', 'POST'])
+def otp():
+    if request.method == 'POST':
+        entered_otp = request.form['otp']
+        
+        user_collection = mongo.db.users
+        user = user_collection.find_one({'email': session['email'], 'otp': entered_otp})
+        
+        if user:
+            # OTP is valid
+            # Proceed with further actions
+            user_collection.update_one({'email': session['email']}, {'$unset': {'otp': ''}})
+            return redirect("/reset-password")
+        
+        # Invalid OTP
+        return "OTP not valid"
+    else:
+        return render_template("otp.html")
 
-@app.route('/forget-pass')
+
+@app.route('/forget-pass', methods=['POST','GET'])
 def forget_pass():
-    pass
+    if request.method == 'POST':
+        email = request.form['email']
+        print(f"Email received: {email}")
+        
+        otp = generate_otp()
+        # Save OTP in user's database
+        user_collection = mongo.db.users
+        user_collection.update_one({'email': email}, {'$set': {'otp': otp}})
+        
+        msg = f"Your OTP is: {otp}"
+        send_email("namitjain2111@gmail.com", "etboiesuglrnwgxt", email, "OTP", msg)
+        
+        # Store email in session
+        session['email'] = email
+        
+        return redirect("/otp")
+    else:
+        return render_template("forget_pass.html")
+
+@app.route('/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    if request.method == 'POST':
+        new_password = request.form['new_password']
+        
+        # Update the user's password in the database
+        user_collection = mongo.db.users
+        user_collection.update_one({'email': session['email']}, {'$set': {'password': new_password}})
+        
+        # Clear email from session
+        session.pop('email', None)
+        
+        return redirect("/")
+    else:
+        # Check if email is stored in session
+        if 'email' in session:
+            return render_template("reset_pass.html")
+        else:
+            return redirect("/forget-pass")
+
+
+
+
 
 
 

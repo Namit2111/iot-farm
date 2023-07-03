@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
 from PIL import Image
-
+from io import BytesIO
 # initialize first flask
 app = Flask(__name__, static_folder='static',template_folder="templates")
 # app.config['MONGO_URI'] = 'mongodb://localhost:27017/Project'
@@ -543,9 +543,12 @@ def profile():
 
             # Decode the base64 image data
             decoded_image = base64.b64decode(image_data)
-            file_path = '/tmp/{}/profile_img/{}.jpg'.format(user['username'],user['username'])
-            with open(file_path, 'wb') as file:
-                file.write(decoded_image)
+            image = Image.open(BytesIO(decoded_image))
+
+            file_path = '/tmp/{}/profile_img/{}.jpg'.format(user['username'], user['username'])
+            # os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+            image.save(file_path)
            
             if "gallery" in user:
                 return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":file_path,"gallery": user['gallery']})    

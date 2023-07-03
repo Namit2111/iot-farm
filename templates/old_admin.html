@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            background-image: url("static/admin.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .dashboard-heading {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .user-profiles {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-profile-name {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .sidenav {
+            height: 100%; /* 100% Full-height */
+            width: 0; /* 0 width - change this with JavaScript */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Stay on top */
+            top: 0;
+            left: 0;
+            background-color: White; /* Black*/
+            overflow-x: hidden; /* Disable horizontal scroll */
+            padding-top: 60px; /* Place content 60px from the top */
+            transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+        }
+        
+        /* The navigation menu links */
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            font-family: Gotham;
+            color: Black;
+            display: block;
+            transition: 0.3s
+        }
+        
+        /* When you mouse over the navigation links, change their color */
+        .sidenav a:hover, .offcanvas a:focus{
+            color: #f1f1f1;
+        }
+        
+        /* Position and style the close button (top right corner) */
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+        
+        /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+        #main {
+            transition: margin-left .5s;
+            padding: 20px;
+        }
+        
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidenav {padding-top: 15px;}
+            .sidenav a {font-size: 18px;}
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/">Home</a>
+        <a href="/admin">Dashboard</a>
+        <a href="/all_crop">Crops</a>
+        <a href="/logout">Logout</a>
+       
+      </div>
+      
+      <!-- Use any element to open the sidenav -->
+      <span onclick="openNav()"><img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="40px" style="padding-top: 40px; padding-left: 40px;"></span>
+      
+      <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+      <div id="main">
+      </div>
+
+
+      <div class="container">
+        <h1 class="dashboard-heading">Dashboard</h1>
+        <div class="user-profiles">
+            {% for user in user_data %}
+            <div class="user-profile">
+                {% if user.profile_image %}
+                <img class="user-profile-pic" src="{{ url_for('static', filename=user.profile_image) }}" alt="{{ user.username }}">
+                {% else %}
+                <img class="user-profile-pic" src="static/profilepic.png" alt="Default Profile Pic">
+                {% endif %}
+                <a class='user-profile-name' href="{{ url_for('user_details', username=user.username) }}">{{ user.username }}</a>
+            </div>
+            {% endfor %}
+            <div class="user-profile">
+                <img class="user-profile-pic" src="static/profilepic.png" alt="User 1">
+                <a class='user-profile-name' href="/add_user">Add new user </a>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        
+        /* Set the width of the side navigation to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "300px";
+}
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+    </script>
+</body>
+</html>

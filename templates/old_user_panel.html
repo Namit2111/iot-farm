@@ -84,8 +84,63 @@
       th {
         background-color: #f2f2f2;
       }
+/*
+      .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
 
-      /* Add your additional CSS styles here */
+      .btn:hover {
+        background-color: #45a049;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+      }
+
+      label {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"],
+      input[type="date"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }*/
+
+
+
+
+
+
 
 
     </style>
@@ -94,7 +149,7 @@
     <h1>Welcome, {{ username }}!</h1>
 
 
-    <h2>Farm Nme : Farm 1</h2>
+    <h2>Farm Name : Farm 1</h2>
 
 
     {% if area %} 
@@ -215,14 +270,14 @@
 </form>
 </div>
 
-<h2>Chemical Information</h2>
+<h2>Fertilizer/Pesticide Information</h2>
     <button class="add-row-btn" onclick="document.getElementById('chemical-name-wrap').style.display='block'">Add Row</button>
     <table id="chemical-table">
         <thead>
             <tr>
                 <th>Chemical</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+                <th>Date</th>
+         
             </tr>
         </thead>
         <tbody>
@@ -232,7 +287,7 @@
           <tr>
             <td>{{crop_data.chemical}}</td>
             <td>{{crop_data.chemical_date}}</td>
-            <td>19-03-2023</td>
+     
         </tr>
         {% endif %}
         {% endfor %} 
@@ -255,12 +310,12 @@
 </div>
 
 
-<h2>Yield Crop Information</h2>
+<h2>Crop Yield Data</h2>
     <button class="add-row-btn" onclick="document.getElementById('yield-wrap').style.display='block'">Add Row</button>
     <table id="yield-table">
         <thead>
             <tr>
-                <th>Yield Crop</th>
+                <th>Crop Yield</th>
                 <th>Date</th>
             </tr>
         </thead>

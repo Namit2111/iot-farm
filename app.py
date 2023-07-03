@@ -7,6 +7,9 @@ import json
 import os
 import datetime
 from flask_cors import CORS
+import base64
+
+
 # initialize first flask
 app = Flask(__name__, static_folder='static',template_folder="templates")
 # app.config['MONGO_URI'] = 'mongodb://localhost:27017/Project'
@@ -15,6 +18,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=30)
 
 app.config['MONGO_URI'] = "mongodb+srv://coe211153csecoe:AZmtosHqknPrbcI2@cluster0.mhxrfuv.mongodb.net/Project?retryWrites=true&w=majority"
 mongo = PyMongo(app)
+
 CORS(app)
 secret_key = os.urandom(24)
 app.secret_key = secret_key
@@ -400,6 +404,27 @@ def profile():
                 )
                 return "Image save successfully"
 
+
+
+
+        # if request.method == 'POST' and 'image' in request.files:
+        #     images = request.files.getlist('image')
+        #     if len(images) > 0:
+        #         username = user['username']
+        #         image_data = []
+        #         for image in images:
+        #             if image.filename != "":
+        #                 filename = image.filename
+        #                 image_base64 = base64.b64encode(image.read()).decode('utf-8')
+        #                 image_data.append({'filename': filename, 'data': image_base64})
+
+        #         mongo.db.users.update_one(
+        #             {'_id': ObjectId(user_id)},
+        #             {'$push': {'gallery': {'$each': image_data}}}
+        #         )
+        #         return "Image saved successfully"
+
+        #     return "No image provided"
 
 
 

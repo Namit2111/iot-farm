@@ -369,8 +369,6 @@ def add_chemical():
         return redirect(url_for('panel'))
 
     
-        #return redirect(url_for('panel'))
-
         
 
 @app.route('/user-profile', methods=['POST','GET'])

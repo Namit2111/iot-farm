@@ -4,3 +4,4 @@ Flask-PyMongo==2.3.0
 pymongo==4.3.3
 requests==2.31.0
 datetime
+Pillow

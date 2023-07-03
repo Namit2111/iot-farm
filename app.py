@@ -546,7 +546,7 @@ def profile():
             image = Image.open(BytesIO(decoded_image))
 
             file_path = '/tmp/{}/profile_img/{}.jpg'.format(user['username'], user['username'])
-            # os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
             image.save(file_path)
            

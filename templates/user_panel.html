@@ -84,23 +84,66 @@
       th {
         background-color: #f2f2f2;
       }
+/*
+      .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
 
-      /* Add your additional CSS styles here */
+      .btn:hover {
+        background-color: #45a049;
+      }
 
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+      }
 
+      label {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"],
+      input[type="date"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }*/
     </style>
   </head>
   <body>
     <h1>Welcome, {{ username }}!</h1>
-
-
-    <h2>Farm Nme : Farm 1</h2>
-
-
-    {% if area %} 
-    <h3>Area of farm: {{area}} m*m</h3>
+    <h2>Farm Name : Farm 1</h2>
+  {% if area %} 
+    <h3>Area of farm: {{area}} <var>m</var><sup>2</sup></h3>
     {% else %}
-    <h3> enter legth and breath of your field  in meters</h3>
+    <h3> Enter length and breadth of your field  in meters</h3>
     <form action="/area" method="post">
       <label for="length">Length:</label>
       <input type="number" id="length" name="length" required><br><br>
@@ -112,8 +155,6 @@
     </form>
     {% endif %}
     <!-- <h2>Channel: {{ channel_name }}</h2> -->
-
-
 <!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
 <!-- Add chart display -->
 <div class="wrap">
@@ -143,12 +184,7 @@
 
 <!-- Confirm button -->
 <button id="confirmButton" >Confirm</button>
-
-
 <!------------------------- Display crop data -->
-
-
-
 <table>
   <thead>
     <tr>
@@ -156,26 +192,21 @@
       <th>Soil Moisture</th>
       <th>Humidity</th>
       <th>Temperature</th>
-  
- 
-      
-    </tr>
+  </tr>
   </thead>
   <tbody>
     <tr>
       <td id="soilMoistureList"><li>{{ crop_data['Soil moisture'] }}</li></td>
       <td id="humidityList">{{ crop_data['Climate'] }}</td>
       <td id="temperatureList">{{ crop_data['Suitable temperature'] }}</td>
-     
-    </tr>
+      </tr>
   </tbody>
 </table>
 
-   
 </div>
 </div>
 <h2>Crop Information</h2>
-<button class="add-row-btn" onclick="document.getElementById('select-crop-wrap').style.display='block'">Add Row</button>
+<button class="add-row-btn" onclick="document.getElementById('select-crop-wrap').style.display='block'">Add Crop</button>
 <table id="crop-table">
   <thead>
     <tr>
@@ -200,6 +231,45 @@
   
 </table>
 
+<div id="yield-wrap" style="display:none;">
+
+    <form action="/add-yield" method="POST" >
+      <label for="yield-crop">Yield Crop:</label>
+      <input type="text" id="yield-crop" name="yield-crop" required>
+      
+      <label for="yield-date">Date:</label>
+      <input type="date" id="yield-date" name="yield-date" required>
+      
+      <button type="submit">Add Yield Crop</button>
+    </form>
+    </div>
+    
+    
+    <h2>Yield Crop Information</h2>
+        <button class="add-row-btn" onclick="document.getElementById('yield-wrap').style.display='block'">Add yield-date</button>
+        <table id="yield-table">
+            <thead>
+                <tr>
+                    <th>Yield Crop</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% if crop_data %}
+              {% for crop_data in crop_data %}
+              {% if crop_data.yield_crop %}
+              <tr>
+                <td>{{crop_data.yield_crop}}</td>
+                <td>{{crop_data.yield_date}}</td>
+            </tr> {% endif %}
+            {% endfor %}
+             
+              {% endif %}
+                
+                
+            </tbody>
+        </table>
+    
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
     
 <div id="chemical-name-wrap" style="display:none;"> 
@@ -216,7 +286,7 @@
 </div>
 
 <h2>Chemical Information</h2>
-    <button class="add-row-btn" onclick="document.getElementById('chemical-name-wrap').style.display='block'">Add Row</button>
+    <button class="add-row-btn" onclick="document.getElementById('chemical-name-wrap').style.display='block'">Add Fertilizer/Pesticide</button>
     <table id="chemical-table">
         <thead>
             <tr>
@@ -241,44 +311,6 @@
     </table>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
     
-<div id="yield-wrap" style="display:none;">
-
-<form action="/add-yield" method="POST" >
-  <label for="yield-crop">Yield Crop:</label>
-  <input type="text" id="yield-crop" name="yield-crop" required>
-  
-  <label for="yield-date">Date:</label>
-  <input type="date" id="yield-date" name="yield-date" required>
-  
-  <button type="submit">Add Yield Crop</button>
-</form>
-</div>
-
-
-<h2>Yield Crop Information</h2>
-    <button class="add-row-btn" onclick="document.getElementById('yield-wrap').style.display='block'">Add Row</button>
-    <table id="yield-table">
-        <thead>
-            <tr>
-                <th>Yield Crop</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-          {% if crop_data %}
-          {% for crop_data in crop_data %}
-          {% if crop_data.yield_crop %}
-          <tr>
-            <td>{{crop_data.yield_crop}}</td>
-            <td>{{crop_data.yield_date}}</td>
-        </tr> {% endif %}
-        {% endfor %}
-         
-          {% endif %}
-            
-            
-        </tbody>
-    </table>
 
 
 

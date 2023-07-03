@@ -122,6 +122,15 @@ def logout():
     return redirect(url_for('home'))
 
 
+@app.route('/forget-pass')
+def forget_pass():
+    pass
+
+
+
+
+
+
 @app.route('/admin')
 def admin():
     # Check if the user has admin privileges

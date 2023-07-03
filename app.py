@@ -12,6 +12,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
+from PIL import Image
 
 # initialize first flask
 app = Flask(__name__, static_folder='static',template_folder="templates")
@@ -486,60 +487,68 @@ def profile():
         user_id = session['user_id']
         user =mongo.db.users.find_one({'_id': ObjectId(user_id)})
         
-        if request.method =='POST' and 'image' in request.files:
-            images = request.files.getlist('image')
-            if len(images)>0:
-                username = user['username']
-                user_dir = 'user_images/'+username
-                image_paths = []
-                for image in images:
-                    if image.filename!= "":
-                        filename = image.filename
-                       
-                        image_path = user_dir
-                        image_path = image_path+"/"+filename
-                        
-                        if not os.path.exists("static/"+user_dir):
-                            os.makedirs("static/"+user_dir)
-                        image.save("static/"+image_path)
-                        image_paths.append(image_path)
-
-
-                mongo.db.users.update_one(
-                    {'_id': ObjectId(user_id)},
-                    {'$push': {'gallery': {'$each': image_paths}}}
-                )
-                return "Image save successfully"
-
-
-
-
-        # if request.method == 'POST' and 'image' in request.files:
+        # if request.method =='POST' and 'image' in request.files:
         #     images = request.files.getlist('image')
-        #     if len(images) > 0:
+        #     if len(images)>0:
         #         username = user['username']
-        #         image_data = []
+        #         user_dir = 'user_images/'+username
+        #         image_paths = []
         #         for image in images:
-        #             if image.filename != "":
+        #             if image.filename!= "":
         #                 filename = image.filename
-        #                 image_base64 = base64.b64encode(image.read()).decode('utf-8')
-        #                 image_data.append({'filename': filename, 'data': image_base64})
+                       
+        #                 image_path = user_dir
+        #                 image_path = image_path+"/"+filename
+                        
+        #                 if not os.path.exists("static/"+user_dir):
+        #                     os.makedirs("static/"+user_dir)
+        #                 image.save("static/"+image_path)
+        #                 image_paths.append(image_path)
+
 
         #         mongo.db.users.update_one(
         #             {'_id': ObjectId(user_id)},
-        #             {'$push': {'gallery': {'$each': image_data}}}
+        #             {'$push': {'gallery': {'$each': image_paths}}}
         #         )
-        #         return "Image saved successfully"
+        #         return "Image save successfully"
 
-        #     return "No image provided"
+
+
+
+        if request.method == 'POST' and 'image' in request.files:
+            images = request.files.getlist('image')
+            if len(images) > 0:
+                username = user['username']
+                image_data = []
+                for image in images:
+                    if image.filename != "":
+                        filename = image.filename
+                        image_base64 = base64.b64encode(image.read()).decode('utf-8')
+                        image_data.append({'filename': filename, 'data': image_base64})
+
+                mongo.db.users.update_one(
+                    {'_id': ObjectId(user_id)},
+                    {'$push': {'gallery': {'$each': image_data}}}
+                )
+                return "Image saved successfully"
+
+            return "No image provided"
 
 
 
 
 
         if "profile_image" in user:
+            image_data = user['profile_image']
+
+            # Decode the base64 image data
+            decoded_image = base64.b64decode(image_data)
+            file_path = '/tmp/{}/profile_img/{}.jpg'.format(user['username'],user['username'])
+            with open(file_path, 'wb') as file:
+                file.write(decoded_image)
+           
             if "gallery" in user:
-                return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user['profile_image'],"gallery": user['gallery']})    
+                return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":file_path,"gallery": user['gallery']})    
             else:
                 return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user['profile_image']})
         if "gallery" in user:
@@ -551,6 +560,8 @@ def profile():
         return "User not authenticated"
 
 
+
+import base64
 
 @app.route('/edit-profile', methods=['GET', 'POST'])
 def edit_profile():
@@ -566,14 +577,21 @@ def edit_profile():
                 'email': request.form.get('email')
             }
 
-            # Update the user data in the database
-            mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$set': updated_user})
+            # Check if profile image is uploaded
             if 'profile_image' in request.files:
                 profile_image = request.files['profile_image']
-                filename= updated_user['username']+".jpg"
-                profile_image.save('static/profile/{}'.format(filename))
-                updated_user['profile_image'] = "profile/"+filename
+                filename = updated_user['username'] + ".jpg"
+                image_data = profile_image.read()
+
+                # Encode image data as base64 string
+                encoded_image = base64.b64encode(image_data).decode('utf-8')
+
+                # Save encoded image in the database
+                updated_user['profile_image'] = encoded_image
+
+            # Update the user data in the database
             mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$set': updated_user})
+
             # Redirect to the profile page after editing
             return redirect('/user-profile')
         else:
@@ -581,6 +599,7 @@ def edit_profile():
     else:
         # Handle the case when the user is not logged in or user_id is missing from session
         return "User not authenticated"
+
 
 
 @app.route('/crop_data/<crop_name>')

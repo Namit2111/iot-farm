@@ -538,6 +538,44 @@ def profile():
 
 import base64
 
+# @app.route('/edit-profile', methods=['GET', 'POST'])
+# def edit_profile():
+#     if 'user_id' in session:
+#         user_id = session['user_id']
+#         user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+
+#         if request.method == 'POST':
+#             # Update user data with the form values submitted
+#             updated_user = {
+#                 'username': request.form.get('name'),
+#                 'phone': request.form.get('phone'),
+#                 'email': request.form.get('email')
+#             }
+
+#             # Check if profile image is uploaded
+#             if 'profile_image' in request.files:
+#                 profile_image = request.files['profile_image']
+#                 filename = updated_user['username'] + ".jpg"
+#                 image_data = profile_image.read()
+
+#                 # Encode image data as base64 string
+#                 encoded_image = base64.b64encode(image_data).decode('utf-8')
+
+#                 # Save encoded image in the database
+#                 updated_user['profile_image'] = encoded_image
+
+#             # Update the user data in the database
+#             mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$set': updated_user})
+
+#             # Redirect to the profile page after editing
+#             return redirect('/user-profile')
+#         else:
+#             return render_template('edit_profile.html', user=user)
+#     else:
+#         # Handle the case when the user is not logged in or user_id is missing from session
+#         return "User not authenticated"
+
+
 @app.route('/edit-profile', methods=['GET', 'POST'])
 def edit_profile():
     if 'user_id' in session:
@@ -552,21 +590,14 @@ def edit_profile():
                 'email': request.form.get('email')
             }
 
-            # Check if profile image is uploaded
-            if 'profile_image' in request.files:
-                profile_image = request.files['profile_image']
-                filename = updated_user['username'] + ".jpg"
-                image_data = profile_image.read()
-
-                # Encode image data as base64 string
-                encoded_image = base64.b64encode(image_data).decode('utf-8')
-
-                # Save encoded image in the database
-                updated_user['profile_image'] = encoded_image
-
             # Update the user data in the database
             mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$set': updated_user})
-
+            if 'profile_image' in request.files:
+                profile_image = request.files['profile_image']
+                filename= updated_user['username']+".jpg"
+                profile_image.save('static/profile/{}'.format(filename))
+                updated_user['profile_image'] = "profile/"+filename
+            mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$set': updated_user})
             # Redirect to the profile page after editing
             return redirect('/user-profile')
         else:
@@ -574,6 +605,8 @@ def edit_profile():
     else:
         # Handle the case when the user is not logged in or user_id is missing from session
         return "User not authenticated"
+
+
 
 
 

@@ -523,7 +523,7 @@ def profile():
            
            
             if "gallery" in user:
-                return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user["profilr_image"],"gallery": user['gallery']})    
+                return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user["profile_image"],"gallery": user['gallery']})    
             else:
                 return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user['profile_image']})
         if "gallery" in user:

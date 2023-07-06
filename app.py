@@ -599,7 +599,7 @@ def edit_profile():
                 updated_user['profile_image'] = "profile/"+filename
             mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$set': updated_user})
             # Redirect to the profile page after editing
-            return redirect('/user-profile')
+            return redirect('/user-dashboard')
         else:
             return render_template('edit_profile.html', user=user)
     else:
@@ -792,26 +792,23 @@ def user_dashboard():
 
 
 
+
 @app.route('/add-yield', methods=['POST'])
 def add_yield():
     if 'user_id' in session:
         user_id = session['user_id']
-        yield_crop = request.form['yield-crop']
-        date = request.form['yield-date']
+        crop_name = request.form['crop-name']
+        yield_date = request.form['yield-date']
 
-        # Insert data into MongoDB
-        yield_data = {
-            'user_id': user_id,
-            'yield_crop': yield_crop,
-            'yield_date': date
-            # Add more fields as needed
-        }
-        mongo.db.farm.insert_one(yield_data)
+        # Update data in MongoDB
+        mongo.db.farm.update_one(
+            {'user_id': user_id, 'crop': crop_name},
+            {'$set': {'yield_date': yield_date}}
+        )
 
-        return redirect(url_for('panel'))
+        return redirect('/user-dashboard')
     else:
-        return redirect(url_for('home'))
-
+        return redirect('home')
 
 
 

@@ -212,7 +212,7 @@
     <tr>
       <th>Crop Name</th>
       <th>Sowing Date</th>
-    
+      <th>Yield Date</th>
     </tr>
   </thead>
   <tbody>
@@ -222,6 +222,18 @@
         <tr>
           <td>{{ crop.crop }}</td>
           <td>{{ crop.date }}</td>
+          
+          {% if crop.yield_date %}
+          <td>{{crop.yield_date}}</td>
+          {% else %}
+          <td>
+            <form action="/add-yield" method="POST" enctype="application/x-www-form-urlencoded">
+              <input type="hidden" name="crop-name" value="{{ crop.crop }}">
+              <input type="date" name="yield-date" required>
+              <button type="submit">Add Yield Date</button>
+            </form>
+          </td>
+          {% endif %}
         
         </tr>
         {% endif %}
@@ -231,7 +243,7 @@
   
 </table>
 
-<div id="yield-wrap" style="display:none;">
+ <!-- <div id="yield-wrap" style="display:none;">
 
     <form action="/add-yield" method="POST" >
       <label for="yield-crop">Yield Crop:</label>
@@ -268,7 +280,7 @@
                 
                 
             </tbody>
-        </table>
+        </table> -->
     
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
     

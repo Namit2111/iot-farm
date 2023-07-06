@@ -212,7 +212,8 @@
     <tr>
       <th>Crop Name</th>
       <th>Sowing Date</th>
-      <th>Yield Date</th>
+      <th>Reaping Date</th>
+      <th>Yield</th>
     </tr>
   </thead>
   <tbody>
@@ -225,6 +226,20 @@
           
           {% if crop.yield_date %}
           <td>{{crop.yield_date}}</td>
+            {% if crop.total_yield %}
+              <td>{{crop.total_yield}}</td>
+            {% else %}
+            <td><form action="/add-yield" method="POST" enctype="application/x-www-form-urlencoded">
+              <input type="hidden" name="crop-name" value="{{ crop.crop }}">
+              <input type="number" name="yield" required>
+              <select name="unit">
+                <option value="kg">kg</option>
+                <option value="pound">pound</option>
+              </select>
+              <button type="submit">Add Yield Date</button>
+            </form></td>
+            {% endif %}
+          
           {% else %}
           <td>
             <form action="/add-yield" method="POST" enctype="application/x-www-form-urlencoded">
@@ -233,6 +248,7 @@
               <button type="submit">Add Yield Date</button>
             </form>
           </td>
+          <td>Add Reap date first</td>
           {% endif %}
         
         </tr>
@@ -284,20 +300,22 @@
     
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
     
-<div id="chemical-name-wrap" style="display:none;"> 
 
-<form action="/add-chemical" method="POST" >
-  <label for="chemical-name">Chemical Name:</label>
-  <input type="text" id="chemical-name" name="chemical-name" required>
-  
-  <label for="date">Start Date:</label>
-  <input type="date" id="date" name="date" required>
-  
-  <button type="submit">Add Chemical</button>
-</form>
-</div>
 
 <h2>Chemical Information</h2>
+
+<div id="chemical-name-wrap" style="display:none;"> 
+
+  <form action="/add-chemical" method="POST" >
+    <label for="chemical-name">Chemical Name:</label>
+    <input type="text" id="chemical-name" name="chemical-name" required>
+    
+    <label for="date">Start Date:</label>
+    <input type="date" id="date" name="date" required>
+    
+    <button type="submit">Add Chemical</button>
+  </form>
+  </div>
     <button class="add-row-btn" onclick="document.getElementById('chemical-name-wrap').style.display='block'">Add Fertilizer/Pesticide</button>
     <table id="chemical-table">
         <thead>

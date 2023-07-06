@@ -798,17 +798,33 @@ def add_yield():
     if 'user_id' in session:
         user_id = session['user_id']
         crop_name = request.form['crop-name']
-        yield_date = request.form['yield-date']
+        if 'yield' in request.form:
+          
+            print(crop_name)
+            yield_value = request.form['yield']
+            unit = request.form['unit']
+            total_yield = f"{yield_value} {unit}"  # Combine yield value and unit
 
-        # Update data in MongoDB
-        mongo.db.farm.update_one(
-            {'user_id': user_id, 'crop': crop_name},
-            {'$set': {'yield_date': yield_date}}
-        )
+            # Update yield value in MongoDB
+            mongo.db.farm.update_one(
+                {'user_id': user_id, 'crop': crop_name},
+                {'$set': {'total_yield': total_yield}}
+            )
+
+
+        else:
+            
+            yield_date = request.form['yield-date']
+
+            # Update data in MongoDB
+            mongo.db.farm.update_one(
+                {'user_id': user_id, 'crop': crop_name},
+                {'$set': {'yield_date': yield_date}}
+            )
 
         return redirect('/user-dashboard')
     else:
-        return redirect('home')
+        return redirect('/')
 
 
 

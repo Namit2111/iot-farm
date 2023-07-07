@@ -634,20 +634,25 @@ def update_crop():
             # Get the selected crop from the form data
             selected_crop = request.form.get('crop_name')
 
+
+            if "sow-date" in request.form:
+                date = request.form.get('sow-date')
+                #  mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$push': {'date': date}})
+            else:
             # Update the user document with the selected crop
-            mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$push': {'crops': selected_crop}})
+                # mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$push': {'crops': selected_crop}})
 
-            # Get the current date
-            today = datetime.date.today()
+                # Get the current date
+                # today = datetime.date.today()
 
-            # Update the farm collection with the user's farm-related data
-            farm_data = {
-                'user_id': user_id,
-                'crop': selected_crop,
-                'date': today.isoformat(),
-                # Add more farm-related data fields as needed
-            }
-            mongo.db.farm.insert_one(farm_data)
+                # Update the farm collection with the user's farm-related data
+                farm_data = {
+                    'user_id': user_id,
+                    'crop': selected_crop,
+                    # 'date': today.isoformat(),
+                    # Add more farm-related data fields as needed
+                }
+                mongo.db.farm.insert_one(farm_data)
 
             return jsonify({'success': True})
         else:

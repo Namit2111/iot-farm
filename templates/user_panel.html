@@ -183,7 +183,7 @@
 </select>
 
 <!-- Confirm button -->
-<button id="confirmButton" >Confirm</button>
+<button id="confirmButton" onclick="reloadPage()">Confirm</button>
 <!------------------------- Display crop data -->
 <table>
   <thead>
@@ -201,7 +201,7 @@
       <td id="temperatureList">{{ crop_data['Suitable temperature'] }}</td>
       </tr>
   </tbody>
-</table>
+</table> 
 
 </div>
 </div>
@@ -223,6 +223,9 @@
         <tr>
           <td>{{ crop.crop }}</td>
           <td>{{ crop.date }}</td>
+          
+
+
           
           {% if crop.yield_date %}
           <td>{{crop.yield_date}}</td>
@@ -307,13 +310,13 @@
 <div id="chemical-name-wrap" style="display:none;"> 
 
   <form action="/add-chemical" method="POST" >
-    <label for="chemical-name">Chemical Name:</label>
+    <label for="chemical-name">Fertilizer/Pesticide Name:</label>
     <input type="text" id="chemical-name" name="chemical-name" required>
     
-    <label for="date">Start Date:</label>
+    <label for="date">Date:</label>
     <input type="date" id="date" name="date" required>
     
-    <button type="submit">Add Chemical</button>
+    <button type="submit">Add</button>
   </form>
   </div>
     <button class="add-row-btn" onclick="document.getElementById('chemical-name-wrap').style.display='block'">Add Fertilizer/Pesticide</button>

@@ -22,7 +22,7 @@
             margin-top: 20px;
         }
 
-        input[type="text"] {
+        input[type="email"] {
             padding: 10px;
             width: 300px;
             margin-bottom: 10px;
@@ -46,10 +46,10 @@
     </style>
 </head>
 <body>
-    <h1>OTP Verification</h1>
-    <form action="/otp" method="POST">
-        <input type="text" name="otp" placeholder="Enter OTP" required>
-        <button type="submit">Verify</button>
+    <h1>Forget Password</h1>
+    <form action="/forget-pass" method="POST">
+        <input type="email" name="email" placeholder="Email" required>
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>

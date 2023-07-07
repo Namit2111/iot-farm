@@ -96,6 +96,7 @@ def signup():
         password = request.form['password']
         email = request.form['email']
         phone = request.form['phone']
+        dob = request.form['dob']
         privlidge = "user"
 
         # Validate the form data (add more validation if needed)
@@ -113,7 +114,9 @@ def signup():
             'password': password,
             'email': email,
             'phone': phone,
+             'dob':dob,
             'privlidge': privlidge,
+
             
         })
 

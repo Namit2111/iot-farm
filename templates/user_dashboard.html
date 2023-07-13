@@ -222,46 +222,44 @@
     </script>
     <script>
         function getCropData() {
-            var selectedCrop = $('#cropSelect').val();
+          var selectedCrop = $('#cropSelect').val();
       
-            // Make a GET request to retrieve crop data
-            $.get('/crop_data/' + selectedCrop, function(data) {
-                // Update the HTML elements with the retrieved data
-                $('#soilMoistureList').html('<li>' + data['Soil moisture'] + '</li>');
-                $('#humidityList').html('<li>' + data['Climate'] + '</li>');
-                $('#temperatureList').html('<li>' + data['Suitable temperature'] + '</li>');
-                  
-                // Enable the confirm button
-                $('#confirmButton').prop('disabled', false);
-                  
-                // Update the crop selection in the database on confirm button click
-                $('#confirmButton').click(function() {
-                    $.post('/update_crop', { crop_name: selectedCrop }, function(response) {
-                        if (response.success) {
-                            // Crop selection successfully updated in the database
-                            $('#selectedCrop').html('Selected Crop: ' + selectedCrop);
-                              
-                            // Disable the crop selection dropdown and confirm button
-                            $('#cropSelect').prop('disabled', true);
-                            $('#confirmButton').prop('disabled', true);
-                        } else {
-                            // Error occurred while updating the database
-                            console.log(response.error);
-                        }
-                    });
-                });
-            });
+          // Make a GET request to retrieve crop data
+          $.get('/crop_data/' + selectedCrop, function(data) {
+            // Update the HTML elements with the retrieved data
+            $('#soilMoistureList').html('<li>' + data['Soil moisture'] + '</li>');
+            $('#humidityList').html('<li>' + data['Climate'] + '</li>');
+            $('#temperatureList').html('<li>' + data['Suitable temperature'] + '</li>');
+      
+            // Enable the confirm button
+           
+          });
         }
-  
-  
-  
-        function add_crop(){
-      console.log("Here")
-      document.getElementById('select-crop-wrap').style.display="block";
-    }
-    </script>
-
-
+      
+  function updateCropSelection() {
+    var selectedCrop = $('#cropSelect').val();
+    $.post('/update_crop', { crop_name: selectedCrop }, function(response) {
+      if (response.success) {
+        // Crop selection successfully updated in the database
+        $('#selectedCrop').html('Selected Crop: ' + selectedCrop);
+        location.reload();
+        // Disable the crop selection dropdown and confirm button
+        //$('#cropSelect').prop('disabled', true);
+        //$('#confirmButton').prop('disabled', true);
+      } else {
+        // Error occurred while updating the database
+        console.log(response.error);
+      }
+    });
+  }
+      
+      
+      
+        function add_crop() {
+          console.log("Here");
+          document.getElementById('select-crop-wrap').style.display = "block";
+        }
+      </script>
 
 
 

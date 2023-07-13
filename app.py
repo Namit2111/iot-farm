@@ -189,7 +189,7 @@ def otp():
 def forget_pass():
     if request.method == 'POST':
         email = request.form['email']
-        print(f"Email received: {email}")
+    
         
         otp = generate_otp()
         # Save OTP in user's database
@@ -526,13 +526,13 @@ def profile():
            
            
             if "gallery" in user:
-                return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user["profile_image"],"gallery": user['gallery']})    
+                return render_template('user_profile.html', feed={"dob":user['dob'],"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user["profile_image"],"gallery": user['gallery']})    
             else:
-                return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user['profile_image']})
+                return render_template('user_profile.html', feed={"dob":user['dob'],"name":user['username'],'email':user['email'],"phone":user['phone'],"pic":user['profile_image']})
         if "gallery" in user:
-            return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone'],"gallery": user['gallery']})
+            return render_template('user_profile.html', feed={"dob":user['dob'],"name":user['username'],'email':user['email'],"phone":user['phone'],"gallery": user['gallery']})
         
-        return render_template('user_profile.html', feed={"name":user['username'],'email':user['email'],"phone":user['phone']})
+        return render_template('user_profile.html', feed={"dob":user['dob'],"name":user['username'],'email':user['email'],"phone":user['phone']})
     else:
         # Handle the case when the user is not logged in or user_id is missing from session
         return "User not authenticated"
@@ -618,7 +618,7 @@ def get_crop_data(crop_name):
     with open('static/crop_data.json', 'r') as file:
        
         crop_data = json.load(file)
-        print(crop_data)
+        
     if crop_name in crop_data:
         return jsonify(crop_data[crop_name])
     else:
@@ -638,24 +638,24 @@ def update_crop():
             selected_crop = request.form.get('crop_name')
 
 
-            if "sow-date" in request.form:
-                date = request.form.get('sow-date')
-                #  mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$push': {'date': date}})
-            else:
+            # if "sow-date" in request.form:
+            #     date = request.form.get('sow-date')
+            #     #  mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$push': {'date': date}})
+            # else:
             # Update the user document with the selected crop
                 # mongo.db.users.update_one({'_id': ObjectId(user_id)}, {'$push': {'crops': selected_crop}})
 
                 # Get the current date
-                # today = datetime.date.today()
+            today = datetime.date.today()
 
                 # Update the farm collection with the user's farm-related data
-                farm_data = {
+            farm_data = {
                     'user_id': user_id,
                     'crop': selected_crop,
-                    # 'date': today.isoformat(),
+                    'date': today.isoformat(),
                     # Add more farm-related data fields as needed
                 }
-                mongo.db.farm.insert_one(farm_data)
+            mongo.db.farm.insert_one(farm_data)
 
             return jsonify({'success': True})
         else:
@@ -808,7 +808,6 @@ def add_yield():
         crop_name = request.form['crop-name']
         if 'yield' in request.form:
           
-            print(crop_name)
             yield_value = request.form['yield']
             unit = request.form['unit']
             total_yield = f"{yield_value} {unit}"  # Combine yield value and unit

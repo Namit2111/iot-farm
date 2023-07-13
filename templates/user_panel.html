@@ -170,21 +170,33 @@
 </div>
 <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
 
-<div id="select-crop-wrap" style="display: none;">
 
-  <h3>Select a Crop</h3>
-<!-- Crop selection dropdown -->
-<select id="cropSelect" onchange="getCropData()" >
-  <option value="" disabled selected>Select a Crop</option>
-  {% for crop in crops %}
-  <option value="{{ crop }}" >{{ crop }}</option>
-  {% endfor %}
-  <!-- Add more crop options as needed -->
-</select>
-
-<!-- Confirm button -->
-<button id="confirmButton" onclick="reloadPage()">Confirm</button>
 <!------------------------- Display crop data -->
+
+
+</div>
+</div>
+<h2>Crop Information</h2>
+
+
+<div id="select-crop-wrap" style="display: none;">
+  <h3>Select a Crop</h3>
+  <!-- Crop selection dropdown -->
+  <select id="cropSelect" onchange="getCropData()">
+    <option value="" disabled selected>Select a Crop</option>
+    {% for crop in crops %}
+    <option value="{{ crop }}">{{ crop }}</option>
+    {% endfor %}
+    <!-- Add more crop options as needed -->
+  </select>
+
+  <!-- Confirm button -->
+  <button id="confirmButton"  onclick="updateCropSelection()" >Confirm</button>
+</div>
+
+
+
+
 <table>
   <thead>
     <tr>
@@ -203,9 +215,7 @@
   </tbody>
 </table> 
 
-</div>
-</div>
-<h2>Crop Information</h2>
+
 <button class="add-row-btn" onclick="document.getElementById('select-crop-wrap').style.display='block'">Add Crop</button>
 <table id="crop-table">
   <thead>
@@ -305,7 +315,7 @@
     
 
 
-<h2>Chemical Information</h2>
+<h2>Fertilizer/Pesticide Information</h2>
 
 <div id="chemical-name-wrap" > 
 
@@ -467,47 +477,52 @@
     
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      function getCropData() {
-          var selectedCrop = $('#cropSelect').val();
-    
-          // Make a GET request to retrieve crop data
-          $.get('/crop_data/' + selectedCrop, function(data) {
-              // Update the HTML elements with the retrieved data
-              $('#soilMoistureList').html('<li>' + data['Soil moisture'] + '</li>');
-              $('#humidityList').html('<li>' + data['Climate'] + '</li>');
-              $('#temperatureList').html('<li>' + data['Suitable temperature'] + '</li>');
-                
-              // Enable the confirm button
-              $('#confirmButton').prop('disabled', false);
-                
-              // Update the crop selection in the database on confirm button click
-              $('#confirmButton').click(function() {
-                  $.post('/update_crop', { crop_name: selectedCrop }, function(response) {
-                      if (response.success) {
-                          // Crop selection successfully updated in the database
-                          $('#selectedCrop').html('Selected Crop: ' + selectedCrop);
-                            
-                          // Disable the crop selection dropdown and confirm button
-                          $('#cropSelect').prop('disabled', true);
-                          $('#confirmButton').prop('disabled', true);
-                      } else {
-                          // Error occurred while updating the database
-                          console.log(response.error);
-                      }
-                  });
-              });
-          });
-      }
+   
+<script>
+  function getCropData() {
+    var selectedCrop = $('#cropSelect').val();
 
+    // Make a GET request to retrieve crop data
+    $.get('/crop_data/' + selectedCrop, function(data) {
+      // Update the HTML elements with the retrieved data
+      $('#soilMoistureList').html('<li>' + data['Soil moisture'] + '</li>');
+      $('#humidityList').html('<li>' + data['Climate'] + '</li>');
+      $('#temperatureList').html('<li>' + data['Suitable temperature'] + '</li>');
 
-
-      function add_crop(){
-    console.log("Here")
-    document.getElementById('select-crop-wrap').style.display="block";
+      // Enable the confirm button
+    //  $('#confirmButton').prop('disabled', false);
+    });
   }
-  </script>
-    
+
+  function updateCropSelection() {
+    var selectedCrop = $('#cropSelect').val();
+    $.post('/update_crop', { crop_name: selectedCrop }, function(response) {
+      if (response.success) {
+        // Crop selection successfully updated in the database
+        $('#selectedCrop').html('Selected Crop: ' + selectedCrop);
+        location.reload();
+        // Disable the crop selection dropdown and confirm button
+        //$('#cropSelect').prop('disabled', true);
+        //$('#confirmButton').prop('disabled', true);
+      } else {
+        // Error occurred while updating the database
+        console.log(response.error);
+      }
+    });
+  }
+
+  // Attach the updateCropSelection function to the confirm button click event
+  //$('#confirmButton').click(function() {
+    //console.log("here")
+    //var selectedCrop = $('#cropSelect').val();
+    //updateCropSelection(selectedCrop);
+  //});
+
+  function add_crop() {
+    console.log("Here");
+    document.getElementById('select-crop-wrap').style.display = "block";
+  }
+</script>
 
 <script>
   

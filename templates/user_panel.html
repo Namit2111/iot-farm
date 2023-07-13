@@ -141,9 +141,9 @@
     <h1>Welcome, {{ username }}!</h1>
     <h2>Farm Name : Farm 1</h2>
   {% if area %} 
-    <h3>Area of farm: {{area}} <var>m</var><sup>2</sup></h3>
+    <h3>Area of farm: {{area}} <var>Feet</var><sup>2</sup></h3>
     {% else %}
-    <h3> Enter length and breadth of your field  in meters</h3>
+    <h3> Enter length and breadth of your field  in Feet</h3>
     <form action="/area" method="post">
       <label for="length">Length:</label>
       <input type="number" id="length" name="length" required><br><br>

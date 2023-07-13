@@ -16,6 +16,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+      #chemical-name-wrap input {
+        margin-right: 136px;
+      }
       .chart-container {
         width: 400px;
         height: 300px;
@@ -325,17 +328,17 @@
     <label for="chemical-name">Fertilizer/Pesticide Name:</label>
     <input type="text" id="chemical-name" name="chemical-name" required>
     
-    <label for="date">Date:</label>
+    <label for="date" >Date:</label>
     <input type="date" id="date" name="date" required>
     
     <button type="submit">Add</button>
   </form>
   </div>
    <!-- <button class="add-row-btn" onclick="document.getElementById('chemical-name-wrap').style.display='block'">Add Fertilizer/Pesticide</button> -->
-    <table id="chemical-table">
+   <!-- <table id="chemical-table">
         <thead>
             <tr>
-                <th>Chemical</th>
+                <th>Fertilizer/Pesticide</th>
                 <th>Date</th>
              
             </tr>
@@ -349,11 +352,53 @@
             <td>{{crop_data.chemical_date}}</td>
            
         </tr>
+        {% else %}
+        <tr>
+        <td>gg</td>
+          <form action="/add-chemical" method="POST" >
+    
+          <td>  <input type="text" id="chemical-name" name="chemical-name" required></td>
+            
+         
+            <td><input type="date" id="date" name="date" required></td>
+            
+            <button type="submit">Add</button>
+          </form>
+
+
+        </tr>
         {% endif %}
         {% endfor %} 
           {% endif %}
         </tbody>
-    </table>
+    </table>-->
+
+
+    <table id="chemical-table">
+      <thead>
+          <tr>
+              <th>Fertilizer/Pesticide</th>
+              <th>Date</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% if crop_data %}
+              {% for data in crop_data %}
+                  {% if data.chemical %}
+                      <tr>
+                          <td>{{ data.chemical }}</td>
+                          <td>{{ data.chemical_date }}</td>
+                      </tr>
+           
+                      
+                  {% endif %}
+              {% endfor %}
+          {% endif %}
+        
+        
+      </tbody>
+  </table>
+  
 <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
     
 

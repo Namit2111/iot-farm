@@ -274,6 +274,7 @@ def user_details(username):
         
         # Retrieve the user details from the database based on the username
         user_details = mongo.db.users.find_one({'username': username})
+      
         if user_details:
             
             # Check if the user has an API key

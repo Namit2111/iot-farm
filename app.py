@@ -480,7 +480,7 @@ def add_chemical():
         }
         mongo.db.farm.insert_one(chemical_data)
 
-        return redirect(url_for('panel'))
+        return redirect(url_for('user_dashboard'))
 
     
         

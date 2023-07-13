@@ -244,6 +244,7 @@
             {% else %}
             <td><form action="/add-yield" method="POST" enctype="application/x-www-form-urlencoded">
               <input type="hidden" name="crop-name" value="{{ crop.crop }}">
+              <input type = "hidden" name = "sow-date" value="{{crop.date}}">
               <input type="number" name="yield" required>
               <select name="unit">
                 <option value="kg">kg</option>

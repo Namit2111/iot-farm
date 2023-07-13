@@ -822,10 +822,10 @@ def add_yield():
         else:
             
             yield_date = request.form['yield-date']
-
+            date = request.form['sow-date']
             # Update data in MongoDB
             mongo.db.farm.update_one(
-                {'user_id': user_id, 'crop': crop_name},
+                {'user_id': user_id, 'crop': crop_name,'date':date},
                 {'$set': {'yield_date': yield_date}}
             )
 

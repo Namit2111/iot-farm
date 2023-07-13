@@ -241,6 +241,8 @@
       <tr>
         <th>Crop Name</th>
         <th>Start Date</th>
+        <th>Reaping Date</th>
+      <th>Yield</th>
        
       </tr>
     </thead>
@@ -252,6 +254,36 @@
             <td>{{ crop.crop }}</td>
             <td>{{ crop.date }}</td>
          
+             
+          {% if crop.yield_date %}
+          <td>{{crop.yield_date}}</td>
+            {% if crop.total_yield %}
+              <td>{{crop.total_yield}}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+          
+          {% else %}
+          <td>
+           
+          </td>
+          <td></td>
+          {% endif %}
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           </tr>
           {% endif %}
         {% endfor %}
@@ -267,13 +299,13 @@
 
 
   
-  <h2>Chemical Information</h2>
+  <h2>Fertilizer/Pesticide Information</h2>
   <table id="chemical-table">
     <thead>
         <tr>
             <th>Chemical</th>
-            <th>Start Date</th>
-            <th>End Date</th>
+            <th>Date</th>
+       
         </tr>
     </thead>
     <tbody>
@@ -283,7 +315,7 @@
       <tr>
         <td>{{crop_data.chemical}}</td>
         <td>{{crop_data.chemical_date}}</td>
-        <td>19-03-2023</td>
+        
     </tr>
     {% endif %}
     {% endfor %} 
@@ -295,30 +327,7 @@
 
 
 
-      <h2>Yield Crop Information</h2>
       
-      <table id="yield-table">
-        <thead>
-            <tr>
-                <th>Yield Crop</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-          {% if crop_data %}
-          {% for crop_data in crop_data %}
-          {% if crop_data.yield_crop %}
-          <tr>
-            <td>{{crop_data.yield_crop}}</td>
-            <td>{{crop_data.yield_date}}</td>
-        </tr> {% endif %}
-        {% endfor %}
-         
-          {% endif %}
-            
-            
-        </tbody>
-    </table>
 
 
 

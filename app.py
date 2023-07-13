@@ -806,6 +806,7 @@ def add_yield():
     if 'user_id' in session:
         user_id = session['user_id']
         crop_name = request.form['crop-name']
+        date = request.form['sow-date']
         if 'yield' in request.form:
           
             yield_value = request.form['yield']
@@ -822,7 +823,7 @@ def add_yield():
         else:
             
             yield_date = request.form['yield-date']
-            date = request.form['sow-date']
+            
             # Update data in MongoDB
             mongo.db.farm.update_one(
                 {'user_id': user_id, 'crop': crop_name,'date':date},
